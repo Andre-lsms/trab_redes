@@ -91,6 +91,5 @@ class ChatView(ft.Column):
         else:
             print(f"Usuário {self.peer_nickname} não está online.")
 
-    # Método para receber mensagens externas e mostrar no chat
     def add_message(self, sender: str, message: str):
         self._add_message_to_view(message, from_self=(sender == self.my_nickname))
