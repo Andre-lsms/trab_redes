@@ -4,7 +4,7 @@ import threading
 import  time
 
 class Client:
-    def __init__(self, pubsub, host="127.0.0.1", port=2002, port_p2p=None):
+    def __init__(self, pubsub, host="127.0.0.1", port=2004, port_p2p=None):
         self.user = None
         self.host = host
         self.port = port

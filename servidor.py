@@ -6,7 +6,7 @@ from datetime import datetime
 class Server:
     def __init__(self):
         self.IP = "127.0.0.1"
-        self.PORT = 2002
+        self.PORT = 2004
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.bind((self.IP, self.PORT))
         self.clients = {}
@@ -19,6 +19,7 @@ class Server:
             conn, addr = self.server.accept()
             conn.settimeout(60)  # evita ficar preso
             threading.Thread(target=self.listen, args=(conn, addr), daemon=True).start()
+        
 
     def listen(self, conn, addr):
         print(f"\033[33mNova conexão IP {addr}\033[0m")

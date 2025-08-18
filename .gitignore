@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.dist/
+.build/
+
+# Virtual env
+.venv/
+venv/
+ENV/
+env/
+
+# Flet / cache
+.flet/
+.build/
+
+# SO/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Configs locais
+*.env
+.env.*
