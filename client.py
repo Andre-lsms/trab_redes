@@ -50,9 +50,11 @@ class Client:
                     users_list = data.get("users", [])
                     self.pubsub.send_all({"type": "user_list", "payload": users_list})
 
-            except (ConnectionResetError, json.JSONDecodeError, OSError):
-                print("Conexão perdida com servidor.")
+            except (ConnectionResetError, json.JSONDecodeError, OSError) as e:
+                print(f"Conexão perdida com servidor. {e}")
                 break
+            except json.JSONDecodeError:
+                print("ERRO: Resposta inválida do servidor. Tentando novamente...")
             except Exception as e:
                 print(f"Erro inesperado no listener servidor: {e}")
                 break
@@ -96,7 +98,7 @@ class Client:
             }
             self.response_event.clear()
             self.connection.sendall(json.dumps(msg).encode("utf-8"))
-
+            
             if not self.response_event.wait(timeout=5):
                 return False, "O servidor não respondeu a tempo."
 

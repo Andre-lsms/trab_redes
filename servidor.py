@@ -101,12 +101,12 @@ class Server:
                 reply = {"action": "register_response", "data": {"status": "error", "msg": "Usuário em uso."}}
                 print(f"Usuário {user} já existe")
             else:
-                self.clients[user] = {'addr': addr, 'conn': conn, 'port_p2p': port_p2p}
+                self.clients[user] = {'addr': addr[0], 'conn': conn, 'port_p2p': port_p2p}
                 reply = {"action": "register_response", "data": {"status": "ok", "msg": f"Usuário '{user}' registrado."}}
                 print(f"\033[33mUsuário '{user}' cadastrado\033[0m")
-                self.online_broadcast()
 
         conn.send(json.dumps(reply).encode("utf-8"))
+        self.online_broadcast()
 
 
 if __name__ == "__main__":

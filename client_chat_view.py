@@ -21,7 +21,7 @@ class ChatView(ft.Column):
             autofocus=True
         )
         self.send_button = ft.IconButton(
-            icon=ft.Icons.SEND_ROUNDED, icon_color=ft.Colors.WHITE, tooltip="Enviar",
+            icon=ft.Icons.SEND_ROUNDED, icon_color=ft.Colors.BLACK, tooltip="Enviar",
             on_click=self._send_message_click
         )
         input_bar = ft.Container(
@@ -53,7 +53,7 @@ class ChatView(ft.Column):
         bubble_color = "#072b00" if from_self else "#2b3b28"
         chat_bubble_content = ft.Column(
             [
-                ft.Text(message_text, selectable=True, size=15)
+                ft.Text(message_text, selectable=True, size=15,color = ft.Colors.WHITE)
             ],
             spacing=4
         )

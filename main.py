@@ -10,6 +10,8 @@ def main(page: ft.Page):
     page.window.resizable = False
     page.window.maximizable = False
     page.window.width = 600
+    page.theme_mode = ft.ThemeMode.LIGHT
+    page.theme = ft.Theme(color_scheme_seed=ft.colors.WHITE)
 
     DUMMY_USERS = []
     client = Client(page.pubsub)
@@ -42,8 +44,9 @@ def main(page: ft.Page):
                 )
             else:
                 list_tile = ft.ListTile(
-                    title=ft.Text(user),
-                    leading=ft.Icon(ft.Icons.PERSON_OUTLINE),
+                    title=ft.Text(user,color = ft.Colors.WHITE),
+                    leading=ft.Icon(ft.Icons.PERSON_OUTLINE,color = ft.Colors.WHITE),
+                    
                     on_click=lambda e, u=user: start_chat(u)
                 )
             users_list_view.controls.append(
@@ -118,6 +121,7 @@ def main(page: ft.Page):
         username_field.error_text = ""
         page.update()
         page.session.set("my_nickname", nickname)
+        
         success, msg = client.register(nickname)
         if not success:
             username_field.error_text = msg or "Nome de usuário já em uso."
@@ -128,6 +132,7 @@ def main(page: ft.Page):
         update_user_list_ui()
         page.navigation_bar = navigation_bar
         page.add(main_content_stack)
+        page.title = f"Chat com Navegação - {nickname}"
         page.update()
 
     def on_pubsub_event(event):
@@ -148,7 +153,7 @@ def main(page: ft.Page):
 
     users_list_view = ft.ListView(expand=True, spacing=10, padding=10)
     online_view = ft.Column(
-        [ft.Text("Usuários Online", size=24, weight=ft.FontWeight.BOLD), users_list_view],
+        [ft.Text("Usuários Online", size=24, weight=ft.FontWeight.BOLD,), users_list_view],
         expand=True
     )
 
@@ -164,8 +169,7 @@ def main(page: ft.Page):
                 label="Online"
             )
         ],
-        overlay_color="#2b3b28",
-        indicator_color="#072b00",
+        indicator_color=ft.Colors.WHITE,
     )
 
     username_field = ft.TextField(
