@@ -6,6 +6,7 @@ Interface feita com **Flet**.
 
 ---
 
+
 ## Requisitos
 
 - **Python 3.10+** (recomendado 3.10 ou 3.11)
@@ -22,6 +23,17 @@ Interface feita com **Flet**.
 > Se mudar a porta no `servidor.py`, mude também no cliente (em `main.py`).
 
 ---
+
+## Como baixar o projeto
+
+Antes de rodar o código, siga os passos para clonar o repositório na sua máquina:
+
+1. **Acesse o repositório no GitHub:**  
+   [https://github.com/Andre-lsms/trab_redes](https://github.com/Andre-lsms/trab_redes)
+
+2. **Clone o repositório via terminal:**
+   ```bash
+   git clone https://github.com/Andre-lsms/trab_redes.git
 
 ## Primeira Execução (mesma máquina)
 
