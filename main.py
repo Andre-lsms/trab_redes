@@ -7,11 +7,14 @@ def main(page: ft.Page):
     page.theme = ft.Theme(color_scheme_seed=ft.Colors.CYAN)
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.window.resizable = False
-    page.window.maximizable = False
     page.window.width = 600
+    page.window.height = 800    
+    page.window.min_width = 600
+    page.window.min_height = 800
+
+    page.window.maximizable = False
     page.theme_mode = ft.ThemeMode.LIGHT
-    page.theme = ft.Theme(color_scheme_seed=ft.colors.WHITE)
+    page.theme = ft.Theme(color_scheme_seed=ft.Colors.WHITE)
 
     DUMMY_USERS = []
     client = Client(page.pubsub)
@@ -149,11 +152,47 @@ def main(page: ft.Page):
                 start_chat(sender)
             active_chats[sender].add_message(sender, message)  # ChatView exibe
 
+        elif event["type"] == "p2p_disconnect":
+
+            peer_address = event["peer"]
+            print(f"Peer {peer_address} desconectou. Removendo chat.")
+            
+            peer_nickname_to_remove = None
+            for nickname in active_chats.keys():
+                success, user_data = client.get_user(nickname)
+                if success and user_data["addr"] == peer_address:
+                    peer_nickname_to_remove = nickname
+                    break
+
+            # Se o nickname foi encontrado, feche o chat
+            if peer_nickname_to_remove:
+                close_chat(peer_nickname_to_remove)
+                page.update()            
+
+
     page.pubsub.subscribe(on_pubsub_event)
+
+    def get_online(e):
+        print('Teste')
+        client.get_online()
+
+
+
+    refresh_list_buton = ft.IconButton(
+        icon= ft.Icons.REFRESH,
+        icon_color= '#072b00',
+        on_click= get_online
+    )
 
     users_list_view = ft.ListView(expand=True, spacing=10, padding=10)
     online_view = ft.Column(
-        [ft.Text("Usuários Online", size=24, weight=ft.FontWeight.BOLD,), users_list_view],
+        [ft.Row(controls=[
+            ft.Text("Usuários Online", size=24, weight=ft.FontWeight.BOLD,),
+                    refresh_list_buton,
+
+        ],
+        alignment= ft.MainAxisAlignment.SPACE_BETWEEN
+        ), users_list_view],
         expand=True
     )
 
@@ -166,7 +205,7 @@ def main(page: ft.Page):
             ft.NavigationBarDestination(
                 icon=ft.Icons.PEOPLE_OUTLINE,
                 selected_icon=ft.Icons.PEOPLE,
-                label="Online"
+                label="Home"
             )
         ],
         indicator_color=ft.Colors.WHITE,
@@ -180,6 +219,7 @@ def main(page: ft.Page):
         border_color="#072b00",
         error_style=ft.TextStyle(color=ft.Colors.RED),
     )
+
 
     login_view = ft.Column(
         [

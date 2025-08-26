@@ -65,6 +65,22 @@ class Server:
                     conn.send(json.dumps(msg).encode("utf-8"))
                 elif action == "ping":
                     print("ping recebido usuario:", user)
+                elif action =="get_online":
+                   with self.clients_lock:
+                        online_users_list = list(self.clients.keys())
+                        reply = {
+                            "action": "online_list_update",
+                            "data": {"users": online_users_list}
+                        }
+                        message_to_send = json.dumps(reply).encode("utf-8")
+                        
+                        try:
+                            conn.send(message_to_send)
+                            print(f'Lista de usuários enviada para: {user}')
+                        except Exception as e:
+                            print(f"Erro ao enviar lista para {user}: {e}")
+
+
         except (ConnectionResetError, ConnectionAbortedError, BrokenPipeError, socket.timeout):
             print(f"Conexão com \033[31m{user or addr}\033[0m foi perdida.")
         except json.JSONDecodeError:
@@ -106,7 +122,6 @@ class Server:
                 print(f"\033[33mUsuário '{user}' cadastrado\033[0m")
 
         conn.send(json.dumps(reply).encode("utf-8"))
-        self.online_broadcast()
 
 
 if __name__ == "__main__":

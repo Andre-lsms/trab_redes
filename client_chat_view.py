@@ -10,6 +10,8 @@ class ChatView(ft.Column):
         self.spacing = 5
         self.alignment = ft.MainAxisAlignment.START
 
+
+
         self.messages_view = ft.ListView(
             expand=True, spacing=10, auto_scroll=True,
             padding=ft.padding.symmetric(horizontal=10)
@@ -89,7 +91,10 @@ class ChatView(ft.Column):
                 # Opcional: mostrar erro ou notificação que não enviou
                 print(f"Erro ao enviar mensagem para {self.peer_nickname}")
         else:
-            print(f"Usuário {self.peer_nickname} não está online.")
+            self.page.snack_bar.content = ft.Text("O usuário não está online.")
+            self.page.snack_bar.open = True
+            self.page.update()
+
 
     def add_message(self, sender: str, message: str):
         self._add_message_to_view(message, from_self=(sender == self.my_nickname))

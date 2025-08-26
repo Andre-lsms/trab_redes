@@ -47,6 +47,7 @@ class Client:
                     self.response_data = data
                     self.response_event.set()
                 elif action == "online_list_update":
+                    print("Lista recebida do servidor")
                     users_list = data.get("users", [])
                     self.pubsub.send_all({"type": "user_list", "payload": users_list})
 
@@ -124,6 +125,10 @@ class Client:
             }
         else:
             return False, response_data.get("msg", "Erro desconhecido no servidor.")
+
+    def get_online(self):
+        msg = {"action": "get_online"}
+        self.connection.sendall(json.dumps(msg).encode("utf-8"))
 
     def send_p2p(self, addr, port, message):
         """Envia mensagem diretamente para outro cliente."""
