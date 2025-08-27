@@ -64,7 +64,7 @@ class Client:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.bind(("0.0.0.0", self.port_p2p))
         s.listen()
-        print(f"P2P ouvindo na porta {self.port_p2p}...")
+        print(f"P2P ouvindo na porta: {self.port_p2p}...")
         while not self.stop_event.is_set():
             try:
                 conn, addr = s.accept()
